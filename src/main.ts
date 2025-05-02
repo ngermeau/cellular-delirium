@@ -1,6 +1,6 @@
 let config = {
   //init
-  cellSize: 15,
+  cellSize: 10,
   initCells: [
     4317, 4410, 5892, 6587, 6001, 10208, 10066, 9924, 6246, 5891, 10065, 4132,
     4223, 6473, 6358, 4409, 4133, 6247, 5783, 6586, 6824, 1488, 1601, 1543,
@@ -65,30 +65,30 @@ let config = {
   ],
 
   //Speed
-  frameRate: 120,
+  frameRate: 60,
 
   //background
   backgroundColor: 22,
 
   //Cell
   initialSize: 1,
-  thresholdSizeMax: 40,
+  thresholdSizeMax: 10,
   finalSizeMin: 1,
   finalSizeMax: 10,
   speedOfGrowthMin: 1,
   speedOfGrowthMax: 2,
-  strokeWeightMin: 1,
-  strokeWeightMax: 4,
+  strokeWeightMin: 3,
+  strokeWeightMax: 20,
   colors: [
-    "ff69b4",
-    "ff1493",
-    "00ff7f",
-    "7fffd4",
-    "ff4500",
-    "ff6347",
-    "9400d3",
-    "8a2be2",
-    "00ced1",
+    "1e90ff",
+    "00bfff",
+    "87cefa",
+    "4682b4",
+    "5f9ea0",
+    "20b2aa",
+    "3cb371",
+    "2e8b57",
+    "006400",
   ],
 };
 
@@ -137,7 +137,7 @@ class CellConfig {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   cycling = 0;
-  cycleSpeed = 10;
+  cycleSpeed = 3;
   livingCells = new Set();
   livingCellsConfig = new Map();
 
