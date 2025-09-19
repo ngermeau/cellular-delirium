@@ -65,7 +65,7 @@ let config = {
   ],
 
   //Speed
-  frameRate: 60,
+  frameRate: 30,
 
   //background
   backgroundColor: 22,
