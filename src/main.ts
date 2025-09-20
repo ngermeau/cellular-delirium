@@ -12,7 +12,7 @@ let config = {
   //Cell
   initialSize: 1,
   thresholdSizeMax: 5,
-  finalSizeMin: 1,
+  finalSizeMin: 5,
   finalSizeMax: 5,
   speedOfGrowthMin: 1,
   speedOfGrowthMax: 2,
@@ -28,11 +28,13 @@ var cycling;
 var cycleSpeed;
 var livingCells;
 var livingCellsConfig;
+
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
 function getRandomFloat(min, max) {
   return Math.random() * (max - min) + min;
 }
@@ -66,6 +68,7 @@ class CellConfig {
   }
 }
 
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   r1x = Math.floor(windowWidth / (2 * config.cellSize));
@@ -74,11 +77,6 @@ function setup() {
   cycleSpeed = 3;
   livingCells = new Set();
   livingCellsConfig = new Map();
-
-  let initCells = config.initCells.forEach((cell) => {
-    livingCells.add(cell);
-    livingCellsConfig.set(cell, new CellConfig());
-  });
   frameRate(config.frameRate);
 }
 
