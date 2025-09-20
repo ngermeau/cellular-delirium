@@ -1,10 +1,7 @@
 let config = {
-  //init
   cellSize: 7,
-  initCells: [],
-
   //Speed
-  frameRate: 15,
+  frameRate: 10,
 
   //background
   backgroundColor: 22,
@@ -28,6 +25,7 @@ var cycling;
 var cycleSpeed;
 var livingCells;
 var livingCellsConfig;
+var randomWalkers = [];
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -68,16 +66,20 @@ class CellConfig {
   }
 }
 
-
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  r1x = Math.floor(windowWidth / (2 * config.cellSize));
-  r1y = Math.floor(windowHeight / (2 * config.cellSize));
   cycling = 0;
   cycleSpeed = 3;
   livingCells = new Set();
   livingCellsConfig = new Map();
   frameRate(config.frameRate);
+  let centerX = Math.floor(windowWidth / (config.cellSize * 2));
+  let centerY = Math.floor(windowHeight / (config.cellSize * 2));
+  randomWalkers = [
+    [centerX, centerY],
+    [centerX, centerY],
+    [centerX, centerY],
+  ];
 }
 
 function windowResized() {
@@ -88,8 +90,8 @@ function cycle() {
   cycling++;
   if (cycleSpeed !== 0 && cycling % cycleSpeed !== 0) return;
   cycling = 0;
-  randowWalker();
   calculateNextLivingCells();
+  randowWalker();
 }
 
 function cantor(x, y) {
@@ -179,30 +181,34 @@ function displayCell(cell) {
 
 function draw() {
   background(22, 40);
+  randowWalker();
   livingCells.forEach((cell) => displayCell(cell));
   cycle();
 }
 
 function randowWalker() {
-  console.log(r1x);
-  console.log(r1y);
-  r1x += getRandomInt(-1, 1);
-  r1y += getRandomInt(-1, 1);
-  let cell = cantor(r1x, r1y);
-  let cell2 = cantor(r1x + 1, r1y + 1);
-  let cell3 = cantor(r1x + 1, r1y - 1);
-  let cell4 = cantor(r1x - 1, r1y + 1);
-  let cell5 = cantor(r1x - 1, r1y - 1);
-  livingCells.add(cell);
-  livingCells.add(cell2);
-  livingCells.add(cell3);
-  livingCells.add(cell4);
-  livingCells.add(cell5);
-  livingCellsConfig.set(cell, new CellConfig());
-  livingCellsConfig.set(cell2, new CellConfig());
-  livingCellsConfig.set(cell3, new CellConfig());
-  livingCellsConfig.set(cell4, new CellConfig());
-  livingCellsConfig.set(cell5, new CellConfig());
+  randomWalkers.forEach((randomWalker) => {
+    randomWalker[0] += getRandomInt(-1, 1);
+    randomWalker[1] += getRandomInt(-1, 1);
+    if (randomWalker[0] >= windowWidth || randomWalker[1] >= windowHeight) {
+      return;
+    }
+    let cell = cantor(randomWalker[0], randomWalker[1]);
+    livingCells.add(cell);
+    livingCellsConfig.set(cell, new CellConfig());
+    let cell2 = cantor(randomWalker[0] + 1, randomWalker[1] + 1);
+    livingCells.add(cell2);
+    livingCellsConfig.set(cell2, new CellConfig());
+    let cell3 = cantor(randomWalker[0] + 1, randomWalker[1] - 1);
+    livingCells.add(cell3);
+    livingCellsConfig.set(cell3, new CellConfig());
+    let cell4 = cantor(randomWalker[0] - 1, randomWalker[1] + 1);
+    livingCells.add(cell4);
+    livingCellsConfig.set(cell4, new CellConfig());
+    let cell5 = cantor(randomWalker[0] - 1, randomWalker[1] - 1);
+    livingCells.add(cell5);
+    livingCellsConfig.set(cell5, new CellConfig());
+  });
 }
 
 function mouseDragged() {
