@@ -26,6 +26,7 @@ var cycleSpeed;
 var livingCells;
 var livingCellsConfig;
 var randomWalkers = [];
+let button;
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -66,6 +67,30 @@ class CellConfig {
   }
 }
 
+function preload() {
+  song = loadSound("public/BiosphereAngelsFlight.mp3");
+}
+
+function mousePressed() {
+  if (!song.isPlaying()) {
+    song.play();
+  }
+}
+
+let isMuted = false;
+
+function toggleMute() {
+  if (isMuted) {
+    song.setVolume(1);
+    button.html("mute");
+    isMuted = false;
+  } else {
+    song.setVolume(0);
+    button.html("unmute");
+    isMuted = true;
+  }
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   cycling = 0;
@@ -80,6 +105,16 @@ function setup() {
     [centerX, centerY],
     [centerX, centerY],
   ];
+
+  button = createButton("unmute");
+  button.style("background-color", "transparent");
+  button.style("color", "white");
+  button.style("border", "1px solid white");
+  button.style("padding", "10px");
+  button.style("border-radius", "5px");
+  button.style("cursor", "pointer");
+  button.mousePressed(toggleMute);
+  button.position(30, 30);
 }
 
 function windowResized() {
