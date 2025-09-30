@@ -27,6 +27,7 @@ var livingCells;
 var livingCellsConfig;
 var randomWalkers = [];
 let button;
+let isMuted = true;
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -71,22 +72,17 @@ function preload() {
   song = loadSound("public/BiosphereAngelsFlight.mp3");
 }
 
-function mousePressed() {
+function toggleMute() {
   if (!song.isPlaying()) {
     song.play();
   }
-}
-
-let isMuted = false;
-
-function toggleMute() {
   if (isMuted) {
     song.setVolume(1);
-    button.html("mute");
+    button.html("mute sound");
     isMuted = false;
   } else {
     song.setVolume(0);
-    button.html("unmute");
+    button.html("unmute sound");
     isMuted = true;
   }
 }
@@ -106,11 +102,11 @@ function setup() {
     [centerX, centerY],
   ];
 
-  button = createButton("unmute");
+  button = createButton("unmute sound");
   button.style("background-color", "transparent");
-  button.style("color", "white");
-  button.style("border", "1px solid white");
-  button.style("padding", "10px");
+  button.style("color", "#fffffa");
+  button.style("border", "3px solid #fffffa");
+  button.style("padding", "8px");
   button.style("border-radius", "5px");
   button.style("cursor", "pointer");
   button.mousePressed(toggleMute);
