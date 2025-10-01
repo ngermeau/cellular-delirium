@@ -1,1 +1,79 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg width="100%" height="100%" viewBox="0 0 1146 1146" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"><ellipse cx="572.863" cy="572.835" rx="572.863" ry="572.835" style="fill:#ff69b4;"/><ellipse cx="664.889" cy="563.088" rx="402.302" ry="349.985" style="fill:#ff1493;"/><ellipse cx="706.822" cy="646.414" rx="259.208" ry="227.923" style="fill:#00ff7f;"/><ellipse cx="714.832" cy="716.972" rx="209.938" ry="128.926" style="fill:#7fffd4;"/><ellipse cx="722.257" cy="716.001" rx="98.171" ry="83.606" style="fill:#ff4500;"/><ellipse cx="741.877" cy="728.525" rx="52.031" ry="45.889" style="fill:#ff6347;"/><ellipse cx="751.422" cy="732.38" rx="32.077" ry="25.801" style="fill:#9400d3;"/></svg>
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="cell1" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#ffffaa;stop-opacity:0.9" />
+      <stop offset="40%" style="stop-color:#d9ed92;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:#b5e48c;stop-opacity:0.3" />
+    </radialGradient>
+    
+    <radialGradient id="cell2" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#b5e48c;stop-opacity:0.9" />
+      <stop offset="50%" style="stop-color:#99d98c;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#76c893;stop-opacity:0.2" />
+    </radialGradient>
+    
+    <radialGradient id="cell3" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#52b69a;stop-opacity:0.9" />
+      <stop offset="50%" style="stop-color:#34a0a4;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#168aad;stop-opacity:0.2" />
+    </radialGradient>
+    
+    <radialGradient id="cell4" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#1a759f;stop-opacity:0.9" />
+      <stop offset="50%" style="stop-color:#1e6091;stop-opacity:0.6" />
+      <stop offset="100%" style="stop-color:#184e77;stop-opacity:0.2" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="#184e77"/>
+  
+  <!-- Large central cell -->
+  <circle cx="400" cy="300" r="180" fill="url(#cell3)" opacity="0.6"/>
+  <circle cx="400" cy="300" r="150" fill="none" stroke="#34a0a4" stroke-width="2" opacity="0.8"/>
+  <circle cx="400" cy="300" r="120" fill="none" stroke="#52b69a" stroke-width="1.5" opacity="0.6"/>
+  
+  <!-- Nucleus -->
+  <circle cx="400" cy="300" r="50" fill="url(#cell1)"/>
+  <circle cx="400" cy="300" r="40" fill="none" stroke="#d9ed92" stroke-width="2" opacity="0.7"/>
+  <circle cx="415" cy="285" r="8" fill="#ffffaa" opacity="0.8"/>
+  
+  <!-- Organelles inside main cell -->
+  <ellipse cx="340" cy="270" rx="18" ry="25" fill="#99d98c" opacity="0.7"/>
+  <ellipse cx="460" cy="310" rx="22" ry="15" fill="#76c893" opacity="0.7"/>
+  <ellipse cx="380" cy="360" rx="15" ry="20" fill="#b5e48c" opacity="0.7"/>
+  <ellipse cx="440" cy="250" rx="20" ry="18" fill="#52b69a" opacity="0.6"/>
+  
+  <!-- Surrounding smaller cells -->
+  <circle cx="180" cy="150" r="70" fill="url(#cell2)" opacity="0.7"/>
+  <circle cx="180" cy="150" r="55" fill="none" stroke="#99d98c" stroke-width="1.5" opacity="0.7"/>
+  <circle cx="180" cy="150" r="20" fill="#ffffaa" opacity="0.8"/>
+  
+  <circle cx="620" cy="180" r="65" fill="url(#cell3)" opacity="0.7"/>
+  <circle cx="620" cy="180" r="50" fill="none" stroke="#34a0a4" stroke-width="1.5" opacity="0.7"/>
+  <circle cx="620" cy="180" r="18" fill="#d9ed92" opacity="0.8"/>
+  
+  <circle cx="150" cy="450" r="60" fill="url(#cell4)" opacity="0.7"/>
+  <circle cx="150" cy="450" r="45" fill="none" stroke="#1a759f" stroke-width="1.5" opacity="0.7"/>
+  <circle cx="150" cy="450" r="15" fill="#168aad" opacity="0.9"/>
+  
+  <circle cx="650" cy="460" r="55" fill="url(#cell2)" opacity="0.7"/>
+  <circle cx="650" cy="460" r="40" fill="none" stroke="#76c893" stroke-width="1.5" opacity="0.7"/>
+  <circle cx="650" cy="460" r="12" fill="#b5e48c" opacity="0.8"/>
+  
+  <!-- Tiny cell clusters -->
+  <circle cx="280" cy="120" r="25" fill="#99d98c" opacity="0.3"/>
+  <circle cx="280" cy="120" r="8" fill="#d9ed92" opacity="0.5"/>
+  
+  <circle cx="720" cy="350" r="30" fill="#168aad" opacity="0.3"/>
+  <circle cx="720" cy="350" r="10" fill="#1a759f" opacity="0.5"/>
+  
+  <circle cx="90" cy="300" r="28" fill="#76c893" opacity="0.3"/>
+  <circle cx="90" cy="300" r="9" fill="#52b69a" opacity="0.5"/>
+  
+  <!-- Connecting membrane lines -->
+  <path d="M 250 150 Q 300 200 340 240" fill="none" stroke="#b5e48c" stroke-width="1" opacity="0.3"/>
+  <path d="M 550 180 Q 500 220 460 260" fill="none" stroke="#34a0a4" stroke-width="1" opacity="0.3"/>
+  <path d="M 220 420 Q 280 380 340 360" fill="none" stroke="#1a759f" stroke-width="1" opacity="0.3"/>
+  <path d="M 580 430 Q 520 390 460 350" fill="none" stroke="#76c893" stroke-width="1" opacity="0.3"/>
+</svg>
