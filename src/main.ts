@@ -8,7 +8,8 @@ const SPEED_OF_GROWTH_MAX = 2;
 const STROKE_WEIGHT_MIN = 1;
 const STROKE_WEIGHT_MAX = 2;
 const BACKGROUND_COLOR = 22;
-const RANDOM_WALKERS_AMOUNT = 10;
+const RANDOM_WALKERS_AMOUNT = 7;
+const STEP = 2;
 const COLORS =
   "d9ed92, b5e48c, 99d98c, 76c893, 52b69a, 34a0a4, 168aad, ffffaa,1a759f, 1e6091, 184e77".split(
     ", ",
@@ -153,15 +154,16 @@ function draw() {
 
 function walkRandomWalkers() {
   randomWalkers.forEach((randomWalker) => {
-    randomWalker[0] += int(random(-2, 2));
-    randomWalker[1] += int(random(-2, 2));
+    randomWalker[0] += int(random(-STEP, STEP));
+    randomWalker[1] += int(random(-STEP, STEP));
     if (
       randomWalker[0] >= windowWidth ||
       randomWalker[1] >= windowHeight ||
       randomWalker[0] <= 0 ||
       randomWalker[1] <= 0
     ) {
-      return;
+      randomWalker[0] = windowWidth;
+      randomWalker[1] = windowHeight;
     }
     let wkNeighbours = neighbours(cantor(randomWalker[0], randomWalker[1]));
     for (let wkNeighbour of wkNeighbours) {
