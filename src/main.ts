@@ -1,12 +1,7 @@
 let config = {
   cellSize: 7,
-  //Speed
   frameRate: 10,
-
-  //background
   backgroundColor: 22,
-
-  //Cell
   initialSize: 1,
   thresholdSizeMax: 5,
   finalSizeMin: 5,
@@ -97,6 +92,12 @@ function setup() {
   let centerX = Math.floor(windowWidth / (config.cellSize * 2));
   let centerY = Math.floor(windowHeight / (config.cellSize * 2));
   randomWalkers = [
+    [centerX, centerY],
+    [centerX, centerY],
+    [centerX, centerY],
+    [centerX, centerY],
+    [centerX, centerY],
+    [centerX, centerY],
     [centerX, centerY],
     [centerX, centerY],
     [centerX, centerY],
@@ -212,15 +213,14 @@ function displayCell(cell) {
 
 function draw() {
   background(22, 40);
-  randowWalker();
   livingCells.forEach((cell) => displayCell(cell));
   cycle();
 }
 
 function randowWalker() {
   randomWalkers.forEach((randomWalker) => {
-    randomWalker[0] += getRandomInt(-1, 1);
-    randomWalker[1] += getRandomInt(-1, 1);
+    randomWalker[0] += getRandomInt(-2, 2);
+    randomWalker[1] += getRandomInt(-2, 2);
     if (randomWalker[0] >= windowWidth || randomWalker[1] >= windowHeight) {
       return;
     }
