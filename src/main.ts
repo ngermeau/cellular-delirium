@@ -8,6 +8,7 @@ const SPEED_OF_GROWTH_MAX = 2;
 const STROKE_WEIGHT_MIN = 1;
 const STROKE_WEIGHT_MAX = 2;
 const BACKGROUND_COLOR = 22;
+const RANDOM_WALKERS_AMOUNT = 10;
 const COLORS =
   "d9ed92, b5e48c, 99d98c, 76c893, 52b69a, 34a0a4, 168aad, ffffaa,1a759f, 1e6091, 184e77".split(
     ", ",
@@ -17,12 +18,6 @@ let cycling = 0;
 let livingCells = new Set();
 let livingCellsConfig = new Map();
 let randomWalkers = [];
-let button;
-let isMuted = true;
-
-function preload() {
-  song = loadSound("public/BiosphereAngelsFlight.mp3");
-}
 
 class CellConfig {
   size: number;
@@ -60,21 +55,6 @@ function uncantor(z) {
   return { x: x, y: y };
 }
 
-function toggleMute() {
-  if (!song.isPlaying()) {
-    song.play();
-  }
-  if (isMuted) {
-    song.setVolume(1);
-    button.html("mute sound");
-    isMuted = false;
-  } else {
-    song.setVolume(0);
-    button.html("unmute sound");
-    isMuted = true;
-  }
-}
-
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
@@ -84,27 +64,9 @@ function setup() {
   frameRate(FRAME_RATE);
   let centerX = Math.floor(windowWidth / (CELL_SIZE * 2));
   let centerY = Math.floor(windowHeight / (CELL_SIZE * 2));
-  randomWalkers = [
-    [centerX, centerY],
-    [centerX, centerY],
-    [centerX, centerY],
-    [centerX, centerY],
-    [centerX, centerY],
-    [centerX, centerY],
-    [centerX, centerY],
-    [centerX, centerY],
-    [centerX, centerY],
-  ];
-
-  button = createButton("unmute sound");
-  button.style("background-color", "transparent");
-  button.style("color", "#fffffa");
-  button.style("border", "3px solid #fffffa");
-  button.style("padding", "8px");
-  button.style("border-radius", "5px");
-  button.style("cursor", "pointer");
-  button.mousePressed(toggleMute);
-  button.position(30, 30);
+  for (let i = 0; i < RANDOM_WALKERS_AMOUNT; i++) {
+    randomWalkers.push([centerX, centerY]);
+  }
 }
 
 function nextCycle() {
@@ -139,7 +101,7 @@ function aliveNeighbours(cell) {
   return intersect;
 }
 
-function neighboursDeadCells() {
+function allNeighboursDeadCells() {
   let deadCells = new Set();
   livingCells.forEach((cell) => {
     deadNeighbours(cell).forEach((dn) => deadCells.add(dn));
@@ -150,7 +112,7 @@ function neighboursDeadCells() {
 function calculateNextLivingCells() {
   let newLivingCells = new Set();
   let newLivingCellsConfig = new Map();
-  let deadCells = neighboursDeadCells();
+  let deadCells = allNeighboursDeadCells();
 
   livingCells.forEach((cell) => {
     let nbrOfAliveNeighbours = aliveNeighbours(cell).size;
@@ -184,12 +146,12 @@ function displayCell(cell) {
 
 function draw() {
   background(BACKGROUND_COLOR, 50);
-  walk();
+  walkRandomWalkers();
   livingCells.forEach((cell) => displayCell(cell));
   nextCycle();
 }
 
-function walk() {
+function walkRandomWalkers() {
   randomWalkers.forEach((randomWalker) => {
     randomWalker[0] += int(random(-2, 2));
     randomWalker[1] += int(random(-2, 2));
