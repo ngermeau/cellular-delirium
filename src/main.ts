@@ -1,70 +1,63 @@
-let config = {
-  cellSize: 7,
-  frameRate: 10,
-  backgroundColor: 22,
-  initialSize: 1,
-  thresholdSizeMax: 5,
-  finalSizeMin: 5,
-  finalSizeMax: 5,
-  speedOfGrowthMin: 1,
-  speedOfGrowthMax: 2,
-  strokeWeightMin: 1,
-  strokeWeightMax: 2,
-  colors:
-    "d9ed92, b5e48c, 99d98c, 76c893, 52b69a, 34a0a4, 168aad, ffffaa,1a759f, 1e6091, 184e77".split(
-      ", ",
-    ),
-};
+const FRAME_RATE = 10;
+const CELL_SIZE = 7;
+const CYCLE_SPEED = 3;
+const INITIAL_SIZE = 1;
+const MAXIMUM_SIZE = 5;
+const SPEED_OF_GROWTH_MIN = 1;
+const SPEED_OF_GROWTH_MAX = 2;
+const STROKE_WEIGHT_MIN = 1;
+const STROKE_WEIGHT_MAX = 2;
+const BACKGROUND_COLOR = 22;
+const COLORS =
+  "d9ed92, b5e48c, 99d98c, 76c893, 52b69a, 34a0a4, 168aad, ffffaa,1a759f, 1e6091, 184e77".split(
+    ", ",
+  );
 
-var cycling;
-var cycleSpeed;
-var livingCells;
-var livingCellsConfig;
-var randomWalkers = [];
+let cycling = 0;
+let livingCells = new Set();
+let livingCellsConfig = new Map();
+let randomWalkers = [];
 let button;
 let isMuted = true;
 
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function getRandomFloat(min, max) {
-  return Math.random() * (max - min) + min;
+function preload() {
+  song = loadSound("public/BiosphereAngelsFlight.mp3");
 }
 
 class CellConfig {
+  size: number;
+  shouldGrow: boolean;
+  speedOfGrowth: number;
+  strokeColor: string;
+  strokeWeight: number;
+
   constructor() {
-    this.size = config.initialSize;
+    this.size = INITIAL_SIZE;
     this.shouldGrow = true;
-
-    this.thresholdSize = 5;
-    this.finalSize = 5;
-    this.speedOfGrowth = getRandomFloat(
-      config.speedOfGrowthMin,
-      config.speedOfGrowthMax,
-    );
-
-    this.strokeColor = config.colors[getRandomInt(0, config.colors.length - 1)];
-    this.strokeWeight = getRandomInt(
-      config.strokeWeightMin,
-      config.strokeWeightMax,
-    );
+    this.speedOfGrowth = random(SPEED_OF_GROWTH_MIN, SPEED_OF_GROWTH_MAX);
+    this.strokeColor = COLORS[int(random(0, COLORS.length - 1))];
+    this.strokeWeight = int(random(STROKE_WEIGHT_MIN, STROKE_WEIGHT_MAX));
   }
 
   updateSize() {
     if (this.shouldGrow) {
       this.size = this.size + this.speedOfGrowth;
-      if (this.size >= this.thresholdSize) this.shouldGrow = false;
-    } else if (this.size > this.finalSize) {
-      this.size = this.size - this.speedOfGrowth;
+      if (this.size >= MAXIMUM_SIZE) {
+        this.shouldGrow = false;
+      }
     }
   }
 }
 
-function preload() {
-  song = loadSound("public/BiosphereAngelsFlight.mp3");
+function cantor(x, y) {
+  return 0.5 * (x + y) * (x + y + 1) + y;
+}
+
+function uncantor(z) {
+  let t = Math.floor((-1 + Math.sqrt(1 + 8 * z)) / 2);
+  let x = (t * (t + 3)) / 2 - z;
+  let y = z - (t * (t + 1)) / 2;
+  return { x: x, y: y };
 }
 
 function toggleMute() {
@@ -82,15 +75,15 @@ function toggleMute() {
   }
 }
 
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  cycling = 0;
-  cycleSpeed = 3;
-  livingCells = new Set();
-  livingCellsConfig = new Map();
-  frameRate(config.frameRate);
-  let centerX = Math.floor(windowWidth / (config.cellSize * 2));
-  let centerY = Math.floor(windowHeight / (config.cellSize * 2));
+  frameRate(FRAME_RATE);
+  let centerX = Math.floor(windowWidth / (CELL_SIZE * 2));
+  let centerY = Math.floor(windowHeight / (CELL_SIZE * 2));
   randomWalkers = [
     [centerX, centerY],
     [centerX, centerY],
@@ -114,27 +107,11 @@ function setup() {
   button.position(30, 30);
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
-
-function cycle() {
+function nextCycle() {
   cycling++;
-  if (cycleSpeed !== 0 && cycling % cycleSpeed !== 0) return;
+  if (cycling % CYCLE_SPEED !== 0) return;
   cycling = 0;
   calculateNextLivingCells();
-  randowWalker();
-}
-
-function cantor(x, y) {
-  return 0.5 * (x + y) * (x + y + 1) + y;
-}
-
-function uncantor(z) {
-  let t = Math.floor((-1 + Math.sqrt(1 + 8 * z)) / 2);
-  let x = (t * (t + 3)) / 2 - z;
-  let y = z - (t * (t + 1)) / 2;
-  return { x: x, y: y };
 }
 
 function neighbours(cell) {
@@ -202,50 +179,39 @@ function displayCell(cell) {
   stroke("#" + cellConfig.strokeColor);
   noFill();
   cellConfig.updateSize();
-  rectMode(CENTER);
-  ellipse(
-    x * config.cellSize,
-    y * config.cellSize,
-    cellConfig.size,
-    cellConfig.size,
-  );
+  ellipse(x * CELL_SIZE, y * CELL_SIZE, cellConfig.size, cellConfig.size);
 }
 
 function draw() {
-  background(22, 40);
+  background(BACKGROUND_COLOR, 50);
+  walk();
   livingCells.forEach((cell) => displayCell(cell));
-  cycle();
+  nextCycle();
 }
 
-function randowWalker() {
+function walk() {
   randomWalkers.forEach((randomWalker) => {
-    randomWalker[0] += getRandomInt(-2, 2);
-    randomWalker[1] += getRandomInt(-2, 2);
-    if (randomWalker[0] >= windowWidth || randomWalker[1] >= windowHeight) {
-      return;
+    randomWalker[0] += int(random(-2, 2));
+    randomWalker[1] += int(random(-2, 2));
+    if (
+      randomWalker[0] >= windowWidth ||
+      randomWalker[1] >= windowHeight ||
+      randomWalker[0] <= 0 ||
+      randomWalker[1] <= 0
+    ) {
     }
-    let cell = cantor(randomWalker[0], randomWalker[1]);
-    livingCells.add(cell);
-    livingCellsConfig.set(cell, new CellConfig());
-    let cell2 = cantor(randomWalker[0] + 1, randomWalker[1] + 1);
-    livingCells.add(cell2);
-    livingCellsConfig.set(cell2, new CellConfig());
-    let cell3 = cantor(randomWalker[0] + 1, randomWalker[1] - 1);
-    livingCells.add(cell3);
-    livingCellsConfig.set(cell3, new CellConfig());
-    let cell4 = cantor(randomWalker[0] - 1, randomWalker[1] + 1);
-    livingCells.add(cell4);
-    livingCellsConfig.set(cell4, new CellConfig());
-    let cell5 = cantor(randomWalker[0] - 1, randomWalker[1] - 1);
-    livingCells.add(cell5);
-    livingCellsConfig.set(cell5, new CellConfig());
+    let neighbor = neighbours(cantor(randomWalker[0], randomWalker[1]));
+    for (neighbour of neighbor) {
+      livingCells.add(neighbour);
+      livingCellsConfig.set(neighbour, new CellConfig());
+    }
   });
 }
 
 function mouseDragged() {
-  let x = Math.round(mouseX / config.cellSize);
-  let y = Math.round(mouseY / config.cellSize);
-  let cell = cantor(x, y);
+  const x = Math.round(mouseX / CELL_SIZE);
+  const y = Math.round(mouseY / CELL_SIZE);
+  const cell = cantor(x, y);
   livingCells.add(cell);
   livingCellsConfig.set(cell, new CellConfig());
 }
