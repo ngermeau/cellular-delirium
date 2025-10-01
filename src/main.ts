@@ -199,11 +199,12 @@ function walk() {
       randomWalker[0] <= 0 ||
       randomWalker[1] <= 0
     ) {
+      return;
     }
-    let neighbor = neighbours(cantor(randomWalker[0], randomWalker[1]));
-    for (neighbour of neighbor) {
-      livingCells.add(neighbour);
-      livingCellsConfig.set(neighbour, new CellConfig());
+    let wkNeighbours = neighbours(cantor(randomWalker[0], randomWalker[1]));
+    for (let wkNeighbour of wkNeighbours) {
+      livingCells.add(wkNeighbour);
+      livingCellsConfig.set(wkNeighbour, new CellConfig());
     }
   });
 }
