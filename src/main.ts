@@ -2,11 +2,11 @@ const FRAME_RATE = 10;
 const CELL_SIZE = 7;
 const CYCLE_SPEED = 3;
 const INITIAL_SIZE = 1;
-const MAXIMUM_SIZE = 5;
+const MAXIMUM_SIZE = 7;
 const SPEED_OF_GROWTH_MIN = 1;
 const SPEED_OF_GROWTH_MAX = 2;
 const STROKE_WEIGHT_MIN = 1;
-const STROKE_WEIGHT_MAX = 2;
+const STROKE_WEIGHT_MAX = 3;
 const BACKGROUND_COLOR = 22;
 const RANDOM_WALKERS_AMOUNT = 7;
 const STEP = 2;
@@ -18,31 +18,14 @@ const COLORS =
 let cycling = 0;
 let livingCells = new Set();
 let livingCellsConfig = new Map();
-let randomWalkers = [];
+let randomWalkers: number[][] = [];
 
 class CellConfig {
-  size: number;
-  shouldGrow: boolean;
-  speedOfGrowth: number;
-  strokeColor: string;
-  strokeWeight: number;
-
-  constructor() {
-    this.size = INITIAL_SIZE;
-    this.shouldGrow = true;
-    this.speedOfGrowth = random(SPEED_OF_GROWTH_MIN, SPEED_OF_GROWTH_MAX);
-    this.strokeColor = COLORS[int(random(0, COLORS.length - 1))];
-    this.strokeWeight = int(random(STROKE_WEIGHT_MIN, STROKE_WEIGHT_MAX));
-  }
-
-  updateSize() {
-    if (this.shouldGrow) {
-      this.size = this.size + this.speedOfGrowth;
-      if (this.size >= MAXIMUM_SIZE) {
-        this.shouldGrow = false;
-      }
-    }
-  }
+  size: number = INITIAL_SIZE;
+  shouldGrow: boolean = true;
+  speedOfGrowth: number = random(SPEED_OF_GROWTH_MIN, SPEED_OF_GROWTH_MAX);
+  strokeColor: string = COLORS[int(random(0, COLORS.length - 1))];
+  strokeWeight: number = int(random(STROKE_WEIGHT_MIN, STROKE_WEIGHT_MAX));
 }
 
 function cantor(x, y) {
@@ -141,7 +124,12 @@ function displayCell(cell) {
   strokeWeight(cellConfig.strokeWeight);
   stroke("#" + cellConfig.strokeColor);
   noFill();
-  cellConfig.updateSize();
+  if (cellConfig.shouldGrow) {
+    cellConfig.size += cellConfig.speedOfGrowth;
+    if (cellConfig.size >= MAXIMUM_SIZE) {
+      cellConfig.shouldGrow = false;
+    }
+  }
   ellipse(x * CELL_SIZE, y * CELL_SIZE, cellConfig.size, cellConfig.size);
 }
 
