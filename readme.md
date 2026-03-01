@@ -4,7 +4,7 @@ Random walkers spawn cells that evolve through Conway's Game of Life rules—cel
 
 Cells grow as colored circles with random stroke weights and growth speeds, fading against a dark background.
 
-![Screenshot](screenshot.png)
+<img src="screenshot.png" height="400" />
 
 ## Installation
 
