@@ -10,7 +10,7 @@ const STROKE_WEIGHT_MAX = 3;
 const BACKGROUND_COLOR = 22;
 const RANDOM_WALKERS_AMOUNT = 5;
 const STEP = 3;
-const CANVAS_WIDTH = 900;
+const CANVAS_WIDTH = 700;
 const CANVAS_HEIGHT = 700;
 
 const COLORS =
