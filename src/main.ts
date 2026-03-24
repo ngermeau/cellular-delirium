@@ -8,8 +8,11 @@ const SPEED_OF_GROWTH_MAX = 2;
 const STROKE_WEIGHT_MIN = 1;
 const STROKE_WEIGHT_MAX = 3;
 const BACKGROUND_COLOR = 22;
-const RANDOM_WALKERS_AMOUNT = 7;
-const STEP = 2;
+const RANDOM_WALKERS_AMOUNT = 5;
+const STEP = 3;
+const CANVAS_WIDTH = 900;
+const CANVAS_HEIGHT = 700;
+
 const COLORS =
   "d9ed92, b5e48c, 99d98c, 76c893, 52b69a, 34a0a4, 168aad, ffffaa,1a759f, 1e6091, 184e77".split(
     ", ",
@@ -39,15 +42,12 @@ function uncantor(z) {
   return { x: x, y: y };
 }
 
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
-
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  let canvas = createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+  canvas.parent("container");
   frameRate(FRAME_RATE);
-  let centerX = Math.floor(windowWidth / (CELL_SIZE * 2));
-  let centerY = Math.floor(windowHeight / (CELL_SIZE * 2));
+  let centerX = Math.floor(CANVAS_WIDTH / (CELL_SIZE * 2));
+  let centerY = Math.floor(CANVAS_HEIGHT / (CELL_SIZE * 2));
   for (let i = 0; i < RANDOM_WALKERS_AMOUNT; i++) {
     randomWalkers.push([centerX, centerY]);
   }
